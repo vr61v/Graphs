@@ -23,7 +23,7 @@ struct adjacent{
  * list - matrix of values
  * edges - struct with start, end vertices and weight
  */
-struct edges{
+struct edgesIncident{
     struct edge{
         int start = -1, end = -1;
         int weight = 0;
@@ -31,7 +31,14 @@ struct edges{
     std::vector<std::string> names;
     std::map<std::string, edge> list;
 };
-
+struct edges{
+    struct edge{
+        int start, end;
+        int weight;
+    };
+    std::map<std::string, int> names;
+    std::vector<edge> list;
+};
 /*
  * exception class for parser
  */
@@ -48,6 +55,7 @@ public:
  */
 bool isDigit(const std::string& number);
 adjacent parserTxtAdjacentMatrix(const char* filePath);
-edges parserTxtIncidentMatrix(const char* filePath);
+edgesIncident parserTxtIncidentMatrix(const char* filePath);
+edges parserTxtEdgesList(const char* filePath);
 
 #endif //PARSER_PARSER_H

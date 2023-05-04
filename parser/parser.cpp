@@ -28,7 +28,7 @@ adjacent parserTxtAdjacentMatrix(const char* filePath){
     adjacent adjacentMatrix;
     adjacentMatrix.matrix.resize(lengthV, std::vector<int>(lengthV, 0));
 
-    int it = 0; std::string names;
+    std::string names;
     getline(file, names);
     char* namesLine = std::strtok(names.data(), SEPARATORS);
     while(namesLine != nullptr){
@@ -58,7 +58,7 @@ adjacent parserTxtAdjacentMatrix(const char* filePath){
     file.close();
     return adjacentMatrix;
 }
-edges parserTxtIncidentMatrix(const char* filePath){
+edgesIncident parserTxtIncidentMatrix(const char* filePath){
     std::ifstream file(filePath);
     if(!file.is_open()){ throw parserException("File not found"); }
 
@@ -77,7 +77,7 @@ edges parserTxtIncidentMatrix(const char* filePath){
         lengthE = std::atoi(firstLine);
     }
 
-    edges edgesList;
+    edgesIncident edgesList;
     std::string edges; getline(file, edges);
     std::vector<std::string> edgesName;
     char* edgesLine = std::strtok(edges.data(), SEPARATORS);
@@ -132,6 +132,60 @@ edges parserTxtIncidentMatrix(const char* filePath){
             break;
         }
     }
+
+    file.close();
+    return edgesList;
+}
+edges parserTxtEdgesList(const char* filePath){
+    std::ifstream file(filePath);
+    if(!file.is_open()){ throw parserException("File not found"); }
+
+    int lengthE = 0; std::string line;
+    getline(file, line);
+    if(line.data() == nullptr){ throw parserException("File is empty"); }
+    if(!isDigit(line)){ throw parserException("Invalid value: Number of vertices is not a digit"); }
+    lengthE = std::atoi(line.c_str());
+
+    edges edgesList;
+
+    std::string names; int it = 0;
+    getline(file, names);
+    char* namesLine = std::strtok(names.data(), SEPARATORS);
+    while(namesLine != nullptr){
+        if(!edgesList.names.contains(namesLine)){ edgesList.names[namesLine] = it++; }
+        else{ throw parserException("Invalid value: there are vertices with the same name"); }
+        namesLine = strtok(nullptr, SEPARATORS);
+    }
+    free(namesLine);
+
+    int x = 0;
+    while(!file.eof()){
+        if(x == lengthE){ break; }
+        int y = 0; std::string values; getline(file, values);
+        char* valuesLine = std::strtok(values.data(), SEPARATORS);
+        int start, end, weight;
+        while(valuesLine != nullptr){
+            if(y > 2){ throw parserException("Invalid value: Incorrect edge"); }
+            if(y == 0){
+                if(!edgesList.names.contains(valuesLine)){ throw parserException("Invalid value: Vertex not found"); }
+                start = edgesList.names[valuesLine];
+            }
+            else if(y == 1){
+                if(!edgesList.names.contains(valuesLine)){ throw parserException("Invalid value: Vertex not found"); }
+                end = edgesList.names[valuesLine];
+            }
+            else if(y == 2){
+                if(!isDigit(valuesLine)){ throw parserException("Invalid value: Value is not a digit"); }
+                weight = std::atoi(valuesLine);
+            }
+            valuesLine = strtok(nullptr, SEPARATORS);
+            ++y;
+        }
+        edgesList.list.push_back({start, end, weight});
+        ++x;
+        if(x > lengthE){ throw parserException("Invalid value: The number of edges differs from the given one"); }
+    }
+    if(x != lengthE){ throw parserException("Invalid value: The number of edges differs from the given one"); }
 
     file.close();
     return edgesList;
