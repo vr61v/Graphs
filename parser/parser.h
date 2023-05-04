@@ -33,8 +33,20 @@ struct edgesList{
 };
 
 /*
- *
+ * exception class for parser
  */
+class parserException : public std::exception{
+private:
+    char* massage;
+public:
+    explicit parserException(char* massage);
+    const char * what() const noexcept override;
+};
+
+/*
+ * function take file.txt path and return adjacent with names & matrix
+ */
+bool isDigit(const std::string& number);
 adjacent parserTxtAdjacentMatrix(const char* filePath);
 
 #endif //PARSER_PARSER_H

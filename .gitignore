@@ -2,3 +2,5 @@
 parser/.idea/
 
 parser/cmake-build-debug/
+
+.DS_Store
