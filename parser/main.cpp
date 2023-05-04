@@ -1,6 +1,7 @@
 #include <iostream>
+#include "parser.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    adjacent matrix = parserTxtAdjacentMatrix("/Users/vr61v/Desktop/Graphs/Graphs/parser/test.txt");
     return 0;
 }

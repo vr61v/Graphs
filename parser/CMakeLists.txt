@@ -3,4 +3,4 @@ project(parser)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(parser main.cpp)
+add_executable(parser main.cpp parser.cpp parser.h)
