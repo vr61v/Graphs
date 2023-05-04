@@ -2,9 +2,9 @@
 #include "parser.h"
 
 int main() {
-    adjacent matrix;
+    edges matrix;
     try{
-        matrix = parserTxtAdjacentMatrix("/Users/vr61v/Desktop/Graphs/Graphs/parser/test2.txt");
+        matrix = parserTxtIncidentMatrix("/Users/vr61v/Desktop/Graphs/Graphs/parser/test.txt");
     }catch(const parserException& exc){
         std::cout << exc.what();
     }
