@@ -163,16 +163,16 @@ edges parserTxtEdgesList(const char* filePath){
         if(x == lengthE){ break; }
         int y = 0; std::string values; getline(file, values);
         char* valuesLine = std::strtok(values.data(), SEPARATORS);
-        int start, end, weight;
+        std::string start, end; int weight;
         while(valuesLine != nullptr){
             if(y > 2){ throw parserException("Invalid value: Incorrect edge"); }
             if(y == 0){
                 if(!edgesList.names.contains(valuesLine)){ throw parserException("Invalid value: Vertex not found"); }
-                start = edgesList.names[valuesLine];
+                start = valuesLine;
             }
             else if(y == 1){
                 if(!edgesList.names.contains(valuesLine)){ throw parserException("Invalid value: Vertex not found"); }
-                end = edgesList.names[valuesLine];
+                end = valuesLine;
             }
             else if(y == 2){
                 if(!isDigit(valuesLine)){ throw parserException("Invalid value: Value is not a digit"); }
