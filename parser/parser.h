@@ -33,7 +33,7 @@ struct edgesIncident{
 };
 struct edges{
     struct edge{
-        int start, end;
+        std::string start, end;
         int weight;
     };
     std::map<std::string, int> names;
